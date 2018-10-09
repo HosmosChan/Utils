@@ -2,17 +2,14 @@ package com.hosmos.utils;
 
 import javax.crypto.Cipher;
 import java.security.*;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.interfaces.*;
+import java.security.spec.*;
 import java.util.Base64;
 
 /**
  * @author Hosmos
  * @version 1.0
- * @Description: RSA加解密，接口encrypt & decrypt
+ * @Description: RSA加解密，接口encode & decode
  * @date 2018年9月30日 15:47:20
  */
 public class RSAUtils {
@@ -42,7 +39,14 @@ public class RSAUtils {
         private String publicKey = "";
         private String privateKey = "";
 
-        public RsaKeyPair(String publicKey, String privateKey) {
+        /**
+         * 根据密钥字符串获取公钥和私钥
+         *
+         * @param publicKey  公钥字符串
+         * @param privateKey 私钥字符串
+         * @return 公钥 & 私钥
+         */
+        private RsaKeyPair(String publicKey, String privateKey) {
             super();
             this.publicKey = publicKey;
             this.privateKey = privateKey;
@@ -69,8 +73,7 @@ public class RSAUtils {
     /**
      * 生成密钥对
      *
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @return 公钥和私钥对
      */
     public static RsaKeyPair generaterKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator keygen = KeyPairGenerator.getInstance(ALGORITHM);
@@ -92,7 +95,6 @@ public class RSAUtils {
      *
      * @param publicKey 公钥字符串
      * @return (RSAPublicKey类型)公钥
-     * @throws Exception
      */
     public static RSAPublicKey getPublicKey(String publicKey) throws Exception {
         byte[] keyBytes = Base64.getDecoder().decode(publicKey);
@@ -106,9 +108,6 @@ public class RSAUtils {
      *
      * @param privateKey 私钥
      * @return (RSAPrivateKey类型)私钥
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
-     * @throws Exception
      */
     public static RSAPrivateKey getPrivateKey(String privateKey) throws Exception {
         byte[] keyBytes = Base64.getDecoder().decode(privateKey);
@@ -123,8 +122,6 @@ public class RSAUtils {
      * @param content    加密数据
      * @param privateKey 私钥
      * @param isRsa2     加密方式(ALGORITHMS_SHA256 : ALGORITHMS_SHA1WithRSA)
-     * @throws InvalidKeySpecException
-     * @throws Exception
      */
     public static String sign(String content, String privateKey, boolean isRsa2) throws Exception {
         PrivateKey priKey = getPrivateKey(privateKey);
@@ -143,7 +140,6 @@ public class RSAUtils {
      * @param sign      数字签名
      * @param isRsa2    加密方式(ALGORITHMS_SHA256 : ALGORITHMS_SHA1WithRSA)
      * @return 校验成功返回true 失败返回false
-     * @throws Exception
      */
     public static boolean verify(String content, String sign, String publicKey, boolean isRsa2) throws Exception {
         PublicKey pubKey = getPublicKey(publicKey);
@@ -157,14 +153,13 @@ public class RSAUtils {
      * 对数据进行加密
      *
      * @param content     加密数据
-     * @param pubOrPrikey 公钥或私钥
-     * @return
-     * @throws Exception
+     * @param pubOrPriKey 公钥或私钥
+     * @return 加密后的数据
      */
-    public static String encrypt(String content, Key pubOrPrikey) throws Exception {
+    public static String encode(String content, Key pubOrPriKey) throws Exception {
         Cipher cipher = null;
         cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, pubOrPrikey);
+        cipher.init(Cipher.ENCRYPT_MODE, pubOrPriKey);
         byte[] result = cipher.doFinal(content.getBytes(DEFAULT_CHARSET));
         return Base64.getEncoder().encodeToString(result);
     }
@@ -173,25 +168,14 @@ public class RSAUtils {
      * 对加密过的数据进行解密
      *
      * @param content     解密数据
-     * @param pubOrPrikey 公钥或私钥
-     * @return
-     * @throws Exception
+     * @param pubOrPriKey 公钥或私钥
+     * @return 解密后的数据
      */
-    public static String decrypt(String content, Key pubOrPrikey) throws Exception {
+    public static String decode(String content, Key pubOrPriKey) throws Exception {
         Cipher cipher = null;
         cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, pubOrPrikey);
+        cipher.init(Cipher.DECRYPT_MODE, pubOrPriKey);
         byte[] result = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(result);
-    }
-
-    public static void main(String[] args) throws Exception {
-        RsaKeyPair gen = generaterKeyPair();
-        RSAPublicKey publicKey = getPublicKey(gen.publicKey);
-        RSAPrivateKey privateKey = getPrivateKey(gen.privateKey);
-        String content = "123456";
-        System.out.println(encrypt(content, privateKey));
-        System.out.println(decrypt(encrypt(content, privateKey), publicKey));
-        System.err.println(verify(content, sign(content, gen.privateKey, false), gen.publicKey, false));
     }
 }

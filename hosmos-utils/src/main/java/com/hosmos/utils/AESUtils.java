@@ -12,7 +12,7 @@ import java.util.Base64;
 /**
  * @author Hosmos
  * @version 1.0
- * @Description: AES加解密，接口encrypt & decrypt
+ * @Description: AES加解密，接口encode & decode
  * @date 2018年9月30日 15:47:20
  */
 public class AESUtils {
@@ -25,10 +25,9 @@ public class AESUtils {
     private static final String DEFAULT_CHARSET = "UTF-8";
 
     /**
-     * 生成密钥
+     * 生成密钥字符串
      *
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @return 密匙字符串
      */
     public static String generaterKey() throws NoSuchAlgorithmException {
         KeyGenerator keygen = KeyGenerator.getInstance(ALGORITHM);
@@ -42,7 +41,7 @@ public class AESUtils {
      * 根据密钥字符串获取密钥
      *
      * @param secretKeyStr 密钥字符串
-     * @return (SecretKeySpec类型)密钥
+     * @return 密匙
      */
     public static SecretKeySpec getSecretKeySpec(String secretKeyStr) {
         byte[] secretKey = Base64.getDecoder().decode(secretKeyStr);
@@ -54,9 +53,9 @@ public class AESUtils {
      *
      * @param content   加密数据
      * @param secretKey 密钥
-     * @throws Exception
+     * @return 加密后的数据
      */
-    public static String encrypt(String content, String secretKey) throws Exception {
+    public static String encode(String content, String secretKey) throws Exception {
         Key key = getSecretKeySpec(secretKey);
         Cipher cipher = Cipher.getInstance(ALGORITHM);// 创建密码器
         cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
@@ -69,21 +68,13 @@ public class AESUtils {
      *
      * @param content   解密数据
      * @param secretKey 密钥
-     * @throws Exception
+     * @return 解密后的数据
      */
-    public static String decrypt(String content, String secretKey) throws Exception {
+    public static String decode(String content, String secretKey) throws Exception {
         Key key = getSecretKeySpec(secretKey);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] result = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(result);
-    }
-
-    public static void main(String[] args) throws Exception {
-        String content = "123456";
-        String gen = generaterKey();
-        System.out.println(gen);
-        System.err.println(encrypt(content, gen));
-        System.err.println(decrypt(encrypt(content, gen), gen));
     }
 }

@@ -18,7 +18,6 @@ public class MD5Utils {
     private static String byteArrayToHexString(byte b[]) {
         StringBuffer resultSb = new StringBuffer();
         for (int i = 0; i < b.length; i++) resultSb.append(byteToHexString(b[i]));
-        System.err.println(resultSb.toString());
         return resultSb.toString();
     }
 
@@ -61,8 +60,4 @@ public class MD5Utils {
      */
     private static final String hexDigits[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 
-    public static void main(String[] args) {
-        String content = "123456789";
-        System.out.println(MD5Encode(content, "UTF-8"));
-    }
 }

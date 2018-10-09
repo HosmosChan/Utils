@@ -9,7 +9,6 @@
 	<!-- 模块 -->
 	<modules>
 		<module>hosmos-utils</module>
-		<module>hosmos-web</module>
 	</modules>
 	<!-- 依赖配置 -->
 	<dependencyManagement>
