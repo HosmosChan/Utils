@@ -1,7 +1,5 @@
 package com.gemdale.utils;
 
- 
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,9 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-
 public class TimeUtil {
-
     private final static String FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static SimpleDateFormat sdf = null;
 
@@ -24,20 +20,20 @@ public class TimeUtil {
     }
 
     /**
-     * »ñÈ¡ÏÖÔÚÄêÔÂÈÕÈÕÆÚ
-     * yyyyÄêMMÔÂddÈÕ
+     * è·å–ç°åœ¨å¹´æœˆæ—¥æ—¥æœŸ
+     * yyyyå¹´MMæœˆddæ—¥
      *
      * @return
      */
     public static final String getDateNow() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyå¹´MMæœˆddæ—¥");
         Date curDate = new Date(System.currentTimeMillis());
         return formatter.format(curDate);
     }
 
     /**
-     * »ñÈ¡ÏÖÔÚÄêÔÂÈÕÈÕÆÚ
-     *"yyyy-MM-dd HH:mm:ss"
+     * è·å–ç°åœ¨å¹´æœˆæ—¥æ—¥æœŸ
+     * "yyyy-MM-dd HH:mm:ss"
      *
      * @return
      */
@@ -48,7 +44,7 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»ØÏÖÔÚµÄÊ±¼ä×Ö·û´® <br/>
+     * è¿”å›ç°åœ¨çš„æ—¶é—´å­—ç¬¦ä¸² <br/>
      * FORMAT = "yyyy-MM-dd HH:mm:ss"
      *
      * @return
@@ -73,7 +69,7 @@ public class TimeUtil {
     }
 
     /**
-     * Ê±¼ä±È½Ï´óĞ¡ true == ´óÓÚ »òÕßÏàµÈ
+     * æ—¶é—´æ¯”è¾ƒå¤§å° true == å¤§äº æˆ–è€…ç›¸ç­‰
      */
     public static final boolean setTimeComparison(String serverTime) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -95,21 +91,21 @@ public class TimeUtil {
     }
 
     /**
-     * ½«×Ö·û´®Ê±¼ä×ª»»ÎªDate
+     * å°†å­—ç¬¦ä¸²æ—¶é—´è½¬æ¢ä¸ºDate
      *
-     * @return Èô×ª»»Ê§°Ü£¬·µ»Ønull
+     * @return è‹¥è½¬æ¢å¤±è´¥ï¼Œè¿”å›null
      */
     public static final Date parseDate(String dateStr) {
         try {
             return getFormat().parse(dateStr);
         } catch (ParseException e) {
-            //LogUtil.e("×ª»»Ê±¼äÊ§°Ü,dateStr: " + dateStr);
+            //LogUtil.e("è½¬æ¢æ—¶é—´å¤±è´¥,dateStr: " + dateStr);
             return null;
         }
     }
 
     /**
-     * ·µ»ØÖ¸¶¨ÈÕÆÚ¾àÀëÏÖÔÚµÄÊ±¼ä³¤¶ÈÃèÊö
+     * è¿”å›æŒ‡å®šæ—¥æœŸè·ç¦»ç°åœ¨çš„æ—¶é—´é•¿åº¦æè¿°
      *
      * @param dateStr
      * @return
@@ -117,56 +113,55 @@ public class TimeUtil {
     public static final String descToNow(String dateStr) {
         Date endDate = parseDate(dateStr);
         if (endDate == null) {
-            return "¸Õ¸Õ";
+            return "åˆšåˆš";
         }
         long seconds = (System.currentTimeMillis() - endDate.getTime()) / 1000;
         if (seconds < 0) {
-            return "¸Õ¸Õ";
+            return "åˆšåˆš";
         }
         int s = (int) (seconds % 60);
-        seconds /= 60; // ×ÜÊ±¼ä×ª»¯Îª·Ö
+        seconds /= 60; // æ€»æ—¶é—´è½¬åŒ–ä¸ºåˆ†
         int m = (int) (seconds % 60);
-        seconds /= 60; // ×ÜÊ±¼ä×ª»¯ÎªÊ±
+        seconds /= 60; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæ—¶
         int h = (int) (seconds % 24);
-        seconds /= 24; // ×ÜÊ±¼ä×ª»¯ÎªÈÕ
+        seconds /= 24; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæ—¥
         int d = (int) (seconds % 30);
-        seconds /= 30; // ×ÜÊ±¼ä×ª»¯ÎªÔÂ
+        seconds /= 30; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæœˆ
         int mo = (int) (seconds % 12);
-        int y = (int) (seconds /= 12); // ×ÜÊ±¼ä×ª»¯ÎªÄê
+        int y = (int) (seconds /= 12); // æ€»æ—¶é—´è½¬åŒ–ä¸ºå¹´
         if (y > 0) {
-            return y + "ÄêÇ°";
+            return y + "å¹´å‰";
         } else if (mo > 0) {
-            return mo + "ÔÂÇ°";
+            return mo + "æœˆå‰";
         } else if (d > 0) {
-            return d + "ÌìÇ°";
+            return d + "å¤©å‰";
         } else if (h > 0) {
-            return h + "Ğ¡Ê±Ç°";
+            return h + "å°æ—¶å‰";
         } else if (m > 0) {
-            return m + "·ÖÇ°";
+            return m + "åˆ†å‰";
         } else if (s > 30) {
-            return "°ë·ÖÖÓÇ°";
+            return "åŠåˆ†é’Ÿå‰";
         } else {
-            return "¸Õ¸Õ";
+            return "åˆšåˆš";
         }
     }
 
     /**
-     * ·µ»ØÖ¸¶¨ÈÕÆÚ£¬µ±¾àÀëĞ¡ÓÚµÈÓÚÄ³Ğ©ÌìµÄ¾àÀëÊ±ºò·µ»Ø¾àÀëÏÖÔÚÊ±¼ä³¤¶ÈÃèÊö£¬µ±´óÓÚÄ³Ğ©Ìì·µ»ØµÄÏÖÔÚµÄÊ±¼ä
+     * è¿”å›æŒ‡å®šæ—¥æœŸï¼Œå½“è·ç¦»å°äºç­‰äºæŸäº›å¤©çš„è·ç¦»æ—¶å€™è¿”å›è·ç¦»ç°åœ¨æ—¶é—´é•¿åº¦æè¿°ï¼Œå½“å¤§äºæŸäº›å¤©è¿”å›çš„ç°åœ¨çš„æ—¶é—´
      *
-     * @param dateStr //Ê±¼ä
-     * @param data    //Ä³Ğ©ÁÙ½çÌìÊı
+     * @param dateStr //æ—¶é—´
+     * @param data    //æŸäº›ä¸´ç•Œå¤©æ•°
      * @return
      */
-
     public static final String descToNowAfterOthers(String dateStr, int data) {
         String s;
         Date endDate = parseDate(dateStr);
         long seconds = (System.currentTimeMillis() - endDate.getTime()) / 1000;
-        seconds /= 60; // ×ÜÊ±¼ä×ª»¯Îª·Ö
-        seconds /= 60; // ×ÜÊ±¼ä×ª»¯ÎªÊ±
-        seconds /= 24; // ×ÜÊ±¼ä×ª»¯ÎªÈÕ
+        seconds /= 60; // æ€»æ—¶é—´è½¬åŒ–ä¸ºåˆ†
+        seconds /= 60; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæ—¶
+        seconds /= 24; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæ—¥
         int d = (int) (seconds % 30);
-        seconds /= 30; // ×ÜÊ±¼ä×ª»¯ÎªÔÂ
+        seconds /= 30; // æ€»æ—¶é—´è½¬åŒ–ä¸ºæœˆ
         int mo = (int) (seconds % 12);
         int y = (int) (seconds /= 12);
         if ((d <= data) && (mo == 0) && (y == 0)) {
@@ -177,9 +172,8 @@ public class TimeUtil {
         return s;
     }
 
-
     /**
-     * ·µ»ØÖ¸¶¨ÈÕÆÚ¾àÀëÏÖÔÚµÄÌìÊı
+     * è¿”å›æŒ‡å®šæ—¥æœŸè·ç¦»ç°åœ¨çš„å¤©æ•°
      *
      * @param dateStr
      * @return
@@ -192,84 +186,83 @@ public class TimeUtil {
             long seconds = (date.getTime() - System.currentTimeMillis()) / 1000;
             double d = seconds / 60 / 60 / 24;
             if (d > 0.5) {
-                return "£¨" + ((int) d) + "Ììºó½ØÖ¹£©";
+                return "ï¼ˆ" + ((int) d) + "å¤©åæˆªæ­¢ï¼‰";
             } else if (d >= 0) {
-                return "£¨°ëÌìºó½ØÖ¹£©";
+                return "ï¼ˆåŠå¤©åæˆªæ­¢ï¼‰";
             } else {
                 return "";
             }
         }
-
     }
 
     /**
-     * ·µ»ØÖĞÎÄÃèÊöµÄÊ±¼ä
+     * è¿”å›ä¸­æ–‡æè¿°çš„æ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 9ÔÂ6ÈÕ 12:20
+     * @return å¦‚ï¼š 9æœˆ6æ—¥ 12:20
      */
     public static final String toChinestDescTime(String dateStr) {
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
-                return new SimpleDateFormat("MMÔÂddÈÕ HH:mm").format(date);
+                return new SimpleDateFormat("MMæœˆddæ—¥ HH:mm").format(date);
             } catch (Exception e) {
-                return "ÔİÎŞ·¨»ñÈ¡Ê±¼ä";
+                return "æš‚æ— æ³•è·å–æ—¶é—´";
             }
         }
     }
 
     /**
-     * ·µ»ØÖĞÎÄÃèÊöµÄÊ±¼ä
+     * è¿”å›ä¸­æ–‡æè¿°çš„æ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 9ÔÂ6ÈÕ
+     * @return å¦‚ï¼š 9æœˆ6æ—¥
      */
     public static final String toChinestTime(String dateStr) {
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
-                return new SimpleDateFormat("MMÔÂddÈÕ").format(date);
+                return new SimpleDateFormat("MMæœˆddæ—¥").format(date);
             } catch (Exception e) {
-                return "ÔİÎŞ·¨»ñÈ¡Ê±¼ä";
+                return "æš‚æ— æ³•è·å–æ—¶é—´";
             }
         }
     }
 
     /**
-     * ·µ»ØÖĞÎÄÃèÊöµÄÊ±¼ä
+     * è¿”å›ä¸­æ–‡æè¿°çš„æ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 9ÔÂ6ÈÕ 12:20
+     * @return å¦‚ï¼š 9æœˆ6æ—¥ 12:20
      */
     public static final String toChinestDescTime2(String dateStr) {
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
-                return new SimpleDateFormat("yyyÄêMMÔÂddÈÕ").format(date);
+                return new SimpleDateFormat("yyyå¹´MMæœˆddæ—¥").format(date);
             } catch (Exception e) {
-                return "ÔİÎŞ·¨»ñÈ¡Ê±¼ä";
+                return "æš‚æ— æ³•è·å–æ—¶é—´";
             }
         }
     }
 
     /**
-     * ·µ»ØÓ¢ÎÄÃèÊöµÄÊ±¼ä
+     * è¿”å›è‹±æ–‡æè¿°çš„æ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 09-06 12:30
+     * @return å¦‚ï¼š 09-06 12:30
      */
     public static final String toEnglishDescTime(String dateStr) {
-        // TODO: 2017-12-18 Õâ¾ä»á³ö´í
+        // TODO: 2017-12-18 è¿™å¥ä¼šå‡ºé”™
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
                 return new SimpleDateFormat("YYYY-MM-dd HH:mm").format(date);
@@ -281,36 +274,36 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»ØÊ±¼äÀàĞÍ
-     * Èç 09-06
-     * /ÔÂ/ÈÕ
+     * è¿”å›æ—¶é—´ç±»å‹
+     * å¦‚ 09-06
+     * /æœˆ/æ—¥
      */
     public static final String toEnglishSmollTime(String dateStr) {
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
                 return new SimpleDateFormat("MM-dd").format(date);
             } catch (Exception e) {
-                return "ÔİÎŞ·¨»ñÈ¡Ê±¼ä";
+                return "æš‚æ— æ³•è·å–æ—¶é—´";
             }
         }
     }
 
     /**
-     * ·µ»Ø·¢²¼ÈÕÆÚ
+     * è¿”å›å‘å¸ƒæ—¥æœŸ
      *
      * @param dateStr
-     * @return Èç£º ·¢²¼ÓÚ2015-09-04
+     * @return å¦‚ï¼š å‘å¸ƒäº2015-09-04
      */
     public static final String getPubDate(String dateStr) {
         Date date = parseDate(dateStr);
         if (date == null) {
-            return "»ñÈ¡Ê±¼äÊ§°Ü";
+            return "è·å–æ—¶é—´å¤±è´¥";
         } else {
             try {
-                return new SimpleDateFormat("·¢²¼ÓÚyyyy-MM-dd").format(date);
+                return new SimpleDateFormat("å‘å¸ƒäºyyyy-MM-dd").format(date);
             } catch (Exception e) {
                 e.printStackTrace();
                 return "";
@@ -319,106 +312,106 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»ØÇø¼äÈÕÆÚ
+     * è¿”å›åŒºé—´æ—¥æœŸ
      *
      * @param fromDate
      * @param toDate
-     * @return Èç£º 2015Äê 9ÔÂ5ÈÕ ÖÁ 9ÔÂ15ÈÕ
+     * @return å¦‚ï¼š 2015å¹´ 9æœˆ5æ—¥ è‡³ 9æœˆ15æ—¥
      */
     @SuppressWarnings("deprecation")
     public static final String getBetweenDate(String fromDate, String toDate) {
         Date from = parseDate(fromDate);
         Date to = parseDate(toDate);
-        SimpleDateFormat sdf1 = new SimpleDateFormat("MÔÂdÈÕ");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyÄê MÔÂdÈÕ");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("Mæœˆdæ—¥");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyå¹´ Mæœˆdæ—¥");
         if (from.getYear() == to.getYear()) {
-            return sdf2.format(from) + " ÖÁ " + sdf1.format(to);
+            return sdf2.format(from) + " è‡³ " + sdf1.format(to);
         } else {
-            return sdf2.format(from) + " ÖÁ " + sdf2.format(to);
+            return sdf2.format(from) + " è‡³ " + sdf2.format(to);
         }
     }
 
     /**
-     * ×ª»»ÎªÈÕÆÚÊ±¼ä
+     * è½¬æ¢ä¸ºæ—¥æœŸæ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 2015-11-25 13:20
+     * @return å¦‚ï¼š 2015-11-25 13:20
      */
     public static final String parseDateTime(String dateStr) {
         try {
             Date date = parseDate(dateStr);
             return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
         } catch (Exception e) {
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØÊ±¼ä
+     * è¿”å›æ—¶é—´
      *
      * @param dateStr
-     * @return Èç£º 14:30
+     * @return å¦‚ï¼š 14:30
      */
     public static final String getTime(String dateStr) {
         try {
             return new SimpleDateFormat("HH:mm").format(parseDate(dateStr));
         } catch (Exception e) {
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØÔÂ·İÃèÊö
+     * è¿”å›æœˆä»½æè¿°
      *
      * @param dateStr
-     * @return Èç£º °ËÔÂ
+     * @return å¦‚ï¼š å…«æœˆ
      */
     @SuppressWarnings("deprecation")
     public static final String getMonthDesc(String dateStr) {
-        String[] desc = new String[]{"Ò»ÔÂ", "¶şÔÂ", "ÈıÔÂ", "ËÄÔÂ", "ÎåÔÂ", "ÁùÔÂ", "ÆßÔÂ", "°ËÔÂ", "¾ÅÔÂ", "Ê®ÔÂ", "Ê®Ò»ÔÂ", "Ê®¶şÔÂ",};
+        String[] desc = new String[]{"ä¸€æœˆ", "äºŒæœˆ", "ä¸‰æœˆ", "å››æœˆ", "äº”æœˆ", "å…­æœˆ", "ä¸ƒæœˆ", "å…«æœˆ", "ä¹æœˆ", "åæœˆ", "åä¸€æœˆ", "åäºŒæœˆ",};
         try {
             return desc[parseDate(dateStr).getMonth()];
         } catch (Exception e) {
             e.printStackTrace();
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØÔÂÈÕ
+     * è¿”å›æœˆæ—¥
      *
      * @param dateStr
-     * @return Èç£º 11ÔÂ21ÈÕ
+     * @return å¦‚ï¼š 11æœˆ21æ—¥
      */
     public static final String getMonthAndDay(String dateStr) {
         try {
-            return new SimpleDateFormat("MMÔÂddÈÕ").format(parseDate(dateStr));
+            return new SimpleDateFormat("MMæœˆddæ—¥").format(parseDate(dateStr));
         } catch (Exception e) {
             e.printStackTrace();
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØÆ½³£¸ñÊ½ÈÕÆÚ
+     * è¿”å›å¹³å¸¸æ ¼å¼æ—¥æœŸ
      *
      * @param dateStr
-     * @return Èç£º 2015-09-15
+     * @return å¦‚ï¼š 2015-09-15
      */
     public static final String getSimpleDate(String dateStr) {
         try {
             return new SimpleDateFormat("yyyy-MM-dd").format(parseDate(dateStr));
         } catch (Exception e) {
             e.printStackTrace();
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»Ø¸ø³öÊ±¼ä×Ö·û´®ÊÇ·ñÊÇÏÖÔÚÖ®ºóµÄÊ±¼ä
+     * è¿”å›ç»™å‡ºæ—¶é—´å­—ç¬¦ä¸²æ˜¯å¦æ˜¯ç°åœ¨ä¹‹åçš„æ—¶é—´
      *
      * @param dateStr
-     * @return ³öÏÖÒì³£ÓÉ·µ»Ø false
+     * @return å‡ºç°å¼‚å¸¸ç”±è¿”å› false
      */
     public static final boolean isAfterNow(String dateStr) {
         try {
@@ -429,10 +422,10 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»Ø¸ø³öÊ±¼ä×Ö·û´®ÊÇ·ñÊÇÏÖÔÚÖ®Ç°µÄÊ±¼ä
+     * è¿”å›ç»™å‡ºæ—¶é—´å­—ç¬¦ä¸²æ˜¯å¦æ˜¯ç°åœ¨ä¹‹å‰çš„æ—¶é—´
      *
      * @param dateStr
-     * @return ³öÏÖÒì³£ÓÉ·µ»Ø false
+     * @return å‡ºç°å¼‚å¸¸ç”±è¿”å› false
      */
     public static final boolean isBeforeNow(String dateStr) {
         try {
@@ -443,8 +436,8 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»ØÁ½¸öÊ±¼ä×Ö·û´®µÄ¼ä¸ôÃèÊö <br />
-     * ĞèÒª±£Ö¤ beginTime Óë endTime ÈÕÆÚÏàÍ¬
+     * è¿”å›ä¸¤ä¸ªæ—¶é—´å­—ç¬¦ä¸²çš„é—´éš”æè¿° <br />
+     * éœ€è¦ä¿è¯ beginTime ä¸ endTime æ—¥æœŸç›¸åŒ
      *
      * @param beginTime
      * @param endTime
@@ -462,30 +455,30 @@ public class TimeUtil {
         try {
             return new SimpleDateFormat(FORMAT).format(new Date(Long.parseLong(longdate)));
         } catch (Exception e) {
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØĞÂÊ½µÄÊ±¼ä¸ñÊ½£¨Éè¼Æ·ç¸ñ²»Í³Ò»£©
+     * è¿”å›æ–°å¼çš„æ—¶é—´æ ¼å¼ï¼ˆè®¾è®¡é£æ ¼ä¸ç»Ÿä¸€ï¼‰
      *
      * @param dateStr
-     * @return Èç£º 2015-09-15
+     * @return å¦‚ï¼š 2015-09-15
      */
     public static final String getTimeAnOtherData(String dateStr) {
         try {
             return new SimpleDateFormat("yyyy/MM/dd  HH:mm").format(parseDate(dateStr));
         } catch (Exception e) {
             e.printStackTrace();
-            return "Î´Öª";
+            return "æœªçŸ¥";
         }
     }
 
     /**
-     * ·µ»ØĞÂÊ½µÄÊ±¼ä¸ñÊ½£¨Éè¼Æ·ç¸ñ²»Í³Ò»£©
+     * è¿”å›æ–°å¼çš„æ—¶é—´æ ¼å¼ï¼ˆè®¾è®¡é£æ ¼ä¸ç»Ÿä¸€ï¼‰
      *
      * @param dateStr
-     * @return Èç£º 2015-09-15 15:15
+     * @return å¦‚ï¼š 2015-09-15 15:15
      */
     public static final String getTimeYMDHMData(String dateStr) {
         try {
@@ -497,30 +490,32 @@ public class TimeUtil {
     }
 
     /**
-     * ·µ»ØĞÂÊ½µÄÊ±¼ä¸ñÊ½£¨Éè¼Æ·ç¸ñ²»Í³Ò»£©
+     * è¿”å›æ–°å¼çš„æ—¶é—´æ ¼å¼ï¼ˆè®¾è®¡é£æ ¼ä¸ç»Ÿä¸€ï¼‰
      *
      * @param dateStr
-     * @return Èç£º 2015-09-15
+     * @return å¦‚ï¼š 2015-09-15
      */
     public static final String getTimeyMdData(String dateStr) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(FORMAT);
-            Date date =sdf.parse(dateStr);
+            Date date = sdf.parse(dateStr);
             return new SimpleDateFormat("yyyy-MM-dd").format(date);
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
-    } /**
-     * ·µ»ØĞÂÊ½µÄÊ±¼ä¸ñÊ½£¨Éè¼Æ·ç¸ñ²»Í³Ò»£©
+    }
+
+    /**
+     * è¿”å›æ–°å¼çš„æ—¶é—´æ ¼å¼ï¼ˆè®¾è®¡é£æ ¼ä¸ç»Ÿä¸€ï¼‰
      *
      * @param dateStr
-     * @return Èç£º 2015-09-15
+     * @return å¦‚ï¼š 2015-09-15
      */
-    public static final String getTimeyMdData(String dateStr,String format) {
+    public static final String getTimeyMdData(String dateStr, String format) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);
-            Date date =sdf.parse(dateStr);
+            Date date = sdf.parse(dateStr);
             return new SimpleDateFormat("yyyy-MM-dd").format(date);
         } catch (Exception e) {
             e.printStackTrace();
