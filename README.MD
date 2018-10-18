@@ -22,3 +22,14 @@
 * IDE           :   `IntelliJ IDEA`
 * Path          :   `Java jre 1.8`
 * UpdateMsg     :   `增加额外的加解密功能；制作接口`
+
+
+## 3.0
+
+* Version       :   `3.0`
+* Description   :   `增加对测试平台登录接口的Jmeter接口测试模拟和Jmeter方法调用接口；增加对测试平台报事提交接口的Jmeter接口测试模拟和Jmeter方法调用接口`
+* DemoFile      :   `com.gemdale.utils.loginJmeterTest和com.gemdale.utils.workJmeterTest`
+* Date          :   `2018年10月18日 11:47`
+* IDE           :   `IntelliJ IDEA`
+* Path          :   `Java jre 1.8`
+* UpdateMsg     :   `制作Jmeter对登录、报事提交测试用接口`
