@@ -2,7 +2,9 @@ package com.gemdale.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hosmos.utils.HashUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,9 +13,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.util.HashMap;
+import com.alibaba.fastjson.JSONObject;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class EncodeUtils {
     String response11 = "null response11";
@@ -296,5 +301,67 @@ public class EncodeUtils {
         System.err.println("++2++" + codeUtils.messageDecode("DS2qNHW2mvawQ99IiOom8NG9VWaK8rPYAv02auRyJvElEXGCRkQz59TDqwyT jtFSh_HaC-Qq7LeRlhMvg9hKZ1nECEJIR9ijYLuWyb2lHTpwTicIPpVfFUAx Peb2WjQ7-r9I9TcvyBzxPw04YRTb3AjFVZyhEKWwiryk7YFCv3LJhaPAUSkd gxLgebs1BRa0OEvA7b0jjfJE7JoUyL69EQZzZWEiIrxqpm00yPlO1-MkKRx2 QJAMWSvPVg-btl6YX2fHRjqCa816Y4TLFS96udxVk9sJGnbO67u_qp7fSjmF U-UMdWsqMF5OoXlh560m2qVrECfYDvvhE1vYP2QBGafXln1AtElTFzsSkpu7 i3uI1CZ14psiPTFpHAgGJdNkEhbFFBHKBgtBUD0h9RB3m-xe-txl-9rQ74l7 JSw-JYNkIY2tSGFPDhjoAIj4kZXa72PceqkoB3htFF1JF9J9hNMhwGr8IZb9 iK5KMMfOVSIfpV29a1v21qxdy_navsh2clNuCBd4NrKOMa_QzGMhxIXBNQC6 JPEFroXzxMJCP1pAilJ8vZ_6prSyg65qtEGke69gQb9awskzN_yes1hl_msM CcX5mgdyB3RZeOusaSM6ye1WB-Ys0We6K4Oe2DUEwtBbqmKRIVuAOHuRlM6z JdYrwzfCtGSYOn_U4IXFd-RDnSRJq19nLPpMh5slWA3UbrUNydp5aELKImSn obGrXFFrvMg4NgaIlCenij35qYRdaMh9EIdTJjWxSwrUuunygjHBuuh8T9tN ZdkfdbmLFqGPXLjcsjmRA3Fv212eA-5-W3QDQOUtl5TIFBTbQOsBYhkgNyr_ T8B3Lc1IKHLr4ogwC1OpMjop8-09sg8AS7dNMQVz32ndUvTHa0PYwd2gwKFR XmmGIhnLaLiIcF81a_r3PHHrlwDFk1WJWL5YzGPLeT3AbJuVyaKIP3-UyRdh VtJy_6ceBYDxJMoz3M-jQtuVr2C9HdMMkPup8l4eNREctlEj7jjNlQjdutwL Zd3_") + "++2++");
         System.err.println("++3++" + codeUtils.messageDecode("yR89vR4Fi2EArRDMpC1qsfq8pKkGIf6bMYE1bAqgxHKkfKol-Fdh0AI5RN_Z D-wUczXmqR2u4twIVnNIWj-S6zEuR06jyOmx3sg3RLcQxVpd7UCsf7GNZu9Z pRItTTF-") + "++3++");
         System.err.println("++报事请求信息++" + codeUtils.messageDecode("DS2qNHW2mvawQ99IiOom8NG9VWaK8rPYAv02auRyJvElEXGCRkQz59TDqwyT jtFSh_HaC-Qq7LeRlhMvg9hKZ1nECEJIR9ijYLuWyb2lHTpwTicIPpVfFUAx Peb2WjQ7-r9I9TcvyBzxPw04YRTb3AjFVZyhEKWwiryk7YFCv3LJhaPAUSkd gxLgebs1BRa0OEvA7b0jjfJE7JoUyL69EQZzZWEiIrxqpm00yPlO1-MkKRx2 QJAMWSvPVg-btl6Ye7sb1ZR9uUxoGhzcuAAvXuRF1NExR8ZKiiA31qOZLZi2 0x4kQy9nDY3Nxpuj7TFa03cP3HawSeEbnaYvWMUMFmKtdHPjlElKSY9T3_nS U_SYGMySKMGqhuif3EZK4Rbyi0nXp4wO05TrklM1K-b5RVRHuNj6hq40M5Cr 0dxADa1MOJjsKU5cPn2JLrmE9zdwT3zx0oqoHY_C4dIFBV5fP289FCMdp2OD zhAO7I3X68X88JEnBWgWqUZb848z0T5MN4zoXnBJe7XmVuFq5o-ooCK3pD7j 0acSrFBEoknIe8HmEYLmrvJisc7Qry-uiZik4MsslDdKXOOA8oKW84vvSxce PhC16HkHfXNF2QJd--QeQImPBrncZAJRRLMHMwKxyNxtDW4Bu9zfrHqf38Yl CZBj5X3iiAIyKXVnd5zn8Wzmrd69_7tXjGp4mXZAZJf75N-pJG8oQcn73bGX ICLurUh9GUIIBYgf8c_4piBWDqXxH26-ixnCNHOEbggFpHqIi-Eym6kYfeq0 oBKujpHCMvIJpPhnuyvaGrcvV2SHRTwV_dDDlUe19knDuwNnDp7UY0zwBAYp V_IQizZO91hghVgULOG064My8_0AIfe8gC0835r7S0CuJBpguywjdxcvU_Fy UR83KEVW7c06VV3wduGnMjhGlD7QpGTBjSZrZiNF_YU1pZhYbHRHk-7lTpq2 nORLEXC-xFse3BbCbPHGNHre5nRHCNmjnZYoPUtBwAwRKWk4uZpjdQxiYZ8L skD0xjlQ7qIUXjCIpgtGDjX5YYOwQ3Am-qci_Im4KIKHNrmNK2PdRrkLocZQ dDsmBWwU") + "++4++");
+    public static String getXmlByMap(SortedMap<Object, Object> bodyTemp) {
+        StringBuffer sb = new StringBuffer();
+        Set<?> es = bodyTemp.entrySet();
+        Iterator<?> it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = entry.getKey().toString();
+            String v = entry.getValue().toString();
+            if ("attach".equalsIgnoreCase(k) || "body".equalsIgnoreCase(k) || "sign".equalsIgnoreCase(k)) {
+                sb.append("<" + k + ">" + v + "</" + k + ">");
+            } else {
+                sb.append("<" + k + ">" + v + "</" + k + ">");
+            }
+        }
+        return sb.toString();
+    }
+    public static String getCurrTime() {
+        Date now = new Date();
+        SimpleDateFormat outFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String s = outFormat.format(now);
+        return s;
+    }
+    public static int buildRandom(int length) {
+        int num = 1;
+        double random = Math.random();
+        if (random < 0.1) {
+            random = random + 0.1;
+        }
+        for (int i = 0; i < length; i++) {
+            num = num * 10;
+        }
+        return (int) ((random * num));
+    }
+    public static String httpRequest(String requestUrl, String requestMethod, String outputStr, String encoding) {
+        // 创建SSLContext
+        StringBuffer buffer = null;
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod(requestMethod);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+            // 往服务器端写内容
+            if (null != outputStr) {
+                OutputStream os = conn.getOutputStream();
+                os.write(outputStr.getBytes("utf-8"));
+                os.close();
+            }
+            // 读取服务器端返回的内容
+            InputStream is = conn.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is, encoding);
+            BufferedReader br = new BufferedReader(isr);
+            buffer = new StringBuffer();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buffer.toString();
     }
 }

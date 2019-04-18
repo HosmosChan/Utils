@@ -5,8 +5,13 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 
 /**
  * @author Hosmos
@@ -71,6 +76,39 @@ public class HashUtils {
             return new String(result);
         } else {
             return null;
+        }
+    }
+    public static String createSign(String characterEncoding, SortedMap<Object, Object> parameters, String key) {
+        StringBuffer sbkey = new StringBuffer();
+        Set<?> es = parameters.entrySet(); // 所有参与传参的参数按照accsii排序（升序）
+        Iterator<?> it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            Object v = entry.getValue();
+            // 空值不传递，不参与签名组串
+            if (null != v && !"".equals(v) && !"sign".equals(k)) {
+                sbkey.append(k + "=" + v + "&");
+            }
+        }
+        sbkey = sbkey.append("key=" + key);
+        System.out.println("sbkey:" + sbkey.toString());
+        System.out.println("-");
+        String sign = encrypt(sbkey.toString(), "kw4Df63kuWNJDzFJVPxdpiinadQNKQEH", "HmacSHA256").toUpperCase();//注：HMAC-SHA256签名方式
+        System.out.println("sign:" + sign);
+        System.out.println("-");
+        return sign;
+    }
+    public static String encrypt(String data, String key, String type) {
+        try {
+            Mac hmac = Mac.getInstance(type);
+            SecretKeySpec signinKey = new SecretKeySpec(key.getBytes(), type);
+            hmac.init(signinKey);
+            byte[] hashResult = hmac.doFinal(data.getBytes());
+            return Hex.encodeHexString(hashResult);
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

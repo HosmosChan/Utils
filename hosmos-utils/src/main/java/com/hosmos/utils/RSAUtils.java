@@ -16,24 +16,8 @@ public class RSAUtils {
     /**
      * 固定私钥与匹配的公钥
      */
-    private static final String privateKeyDef = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAPIlraI/Mdhw2WQG\n" +
-            "tR3yYytoqddKntDKUoBU+311s9XLHR7tfyAKsALbzyXF5VyNRoiBV6mbjViTP28n\n" +
-            "9ymPFPo2kU6sv2qkOJdNWEOGFTVi9g3bRyz+vSH9YIMRMc/m6NVus/hYECY+IXqP\n" +
-            "1+y6mPmWQyUXTufJL5d08J9Yhq/lAgMBAAECgYAVF/0pLhIchbAaS49JfYzwAh0R\n" +
-            "eRmenJFVRpHl2vQAgsIVqKCzXNr6VMWVx8h0KIZla8cEKl3Ewob7GuMoBqPQAMGp\n" +
-            "iNtuiJ5/kdrqN49wnBhupeXj1KHKIcqutqPfU7jIuasENE3Gk6xPJnR9I6QlLKSy\n" +
-            "My1cb6b3/POH+/4FfQJBAPtA/zAH8slKdL2FMTTEZ/eYMOabt783B9eBYejMNb2X\n" +
-            "W5m8qDK27kg/SIyXE+UiF6OCDNyT1aYI8HRBVN36AdcCQQD2uKTAm7Gb1jndEIvF\n" +
-            "mt93bVhMwlbd9z9uEx979INx6WD4LZ8v4xyKzqcDw0Oj8lbngT9WPP5ziJoufUuq\n" +
-            "fByjAkEAnw8xviV6BQZ2yzgTw5UHQI5/fq5b79iVxU9qPWdyKhk06ymszZZTWTd+\n" +
-            "5UoLVUZ08pU1MTsByT/lgaOOZ4yLNwJBAJa5RIUaWI2weRcRNaJZs+080rXJ/9GI\n" +
-            "a6quagyK2wZrIb9b96UEpPoztxp4Xsk4kljJv8zKZFRmfnKqPuB/A+sCQF/8aDmi\n" +
-            "fTjhKlEiaovfrVqXkCtXQkcU+a8aWe63TqXTVojYzl++4WMhiLTrBXInPd5cqiZl\n" +
-            "QEOP4BRLaXDHfuM=";
-    private static final String publicKeyDef = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDyJa2iPzHYcNlkBrUd8mMraKnX\n" +
-            "Sp7QylKAVPt9dbPVyx0e7X8gCrAC288lxeVcjUaIgVepm41Ykz9vJ/cpjxT6NpFO\n" +
-            "rL9qpDiXTVhDhhU1YvYN20cs/r0h/WCDETHP5ujVbrP4WBAmPiF6j9fsupj5lkMl\n" +
-            "F07nyS+XdPCfWIav5QIDAQAB";
+    private static final String privateKeyDef = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDqwmQ2NK8Ks6sYJVDwWO9MzvNkaP4/5YX27xko1AHp47AVvRMIsYCpmqTBeV4Y/Hncjg3EDx3AogbIKdjqISkv4W5qrbYUOnNpOlC8s7p7boHCzLfcMx4aiHhqeSHyEMk6lBjvNPaSCyCOdE8bmeZY8Dr1TG8pFQPHrcb7XVee6RG/4zg6Giax6uUjqYXHD9zpiYKmFJ6MG3aOp1IWnHloQg+LEgkRWVeWFndXDw2gJiPl73efQKVDIP77gtdXQtEsHspQvOKxFYDNeW+R3Pp2bhF7+0NnH79W36pNr/695Go3Ak9vDeeDH/euPerC91m24hIvw7oTGMqbMEVdAc9VAgMBAAECggEBALeJ/5s5mVi+m5enJR6kCYN9kWEBjTYblp820+7NwilAcByu1EDJthPj6cexwdW7HvNGxJByWQqQIsk/nm1+O5tJnnAdG+u4vx6YDyNZSQTTovPP5jdsZ67K34ou5lFAunLn8o6iU9xegredS3QC4MrMFuxNM+NkoK3uuVEw6x47DuYihQAgavSyN0ntxhVJ+EnpJ7MIsR9DnzzCw4m/U+g3Y2Yb/5KkyrWF75SQ9vCIMN73FRIsDAD0m+lmBUfO+FMHLppql27otkaowyh1MpyXxzI58hxHEnezI3ZcFcVkpRASWlugU4fbt5HdY2KsZcTZRQga+SZyZYXLadAruckCgYEA9hC6yLzKnpwY4QrE3sc8isNyDXQuop1b1rl43f3K6EAj6pTnF4H1ncydv+lKDiRPVTlRYagxt7wSHK5hmEqMk0zUw5z1V2Jojln6digkhURBMo1MVQdItlPeJU9D2tCl8dNu1VDAYjUPkxeeHRjzvz/81VS+3/YE14kIOSvMLmMCgYEA9DzOREnP0iooz8kMECLPKoTQaZeza71mxI226SXDwk1xje0bhEIOHM1LpPrfQD+Jxwi/1y91+wCnouNonrMTwGpUFJ+6dvHnWQnE7uonR7sU627cy6EJImEJwfDsuWiM6ObhrUVAH/gfH/YeWmtaBurvJBZI8fgB+RXjlJVEfOcCgYALXXxzFx04tDcF9exf6c3nDt3utyYMRr5eLZTik/1SOtwt0pDV6h/BGRlUKt9LxeuQISScIRuiw+IGRxuk4BScHRlaq549WgNAR/GkkXgWW6+zOQmEh+CY40jIal/U9HwlrkFZQvCP2KmOfrHD4Eop1DfGVrK2P3O7zM1/boFwxwKBgCCIwQlDs9VRHGKha2Py3xnQ21pVhOcDMd9Y6VahWzRU0J2RSisSCYM4razqZjbOv/GtbrChd9vZuHrwRA1v2V+2SkD9Df+uNZ0cugkBU/4wI5dBC1RsvSTBPGWDTGVeUfbsWn+US/h2Ot8tD9oHltR5EyYBefIRkWG20rwGLjtdAoGBAOYbvWHxpKnNgV4HlnxTtmjMbxF/XKQW39U9KNVG2Ad1n+VYx2wMWJNeuqINgNaeoYf6/ISR3ZKCn6RjBceK+v3dc0LT0wpvW3UlOy6U3SPxz3SQxpIIafDPEjHO87ucVI7f4Hz9+BT0eklangYyi6pzEdfckK9utCqI+p7Xga7U";
+    private static final String publicKeyDef = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6sJkNjSvCrOrGCVQ8FjvTM7zZGj+P+WF9u8ZKNQB6eOwFb0TCLGAqZqkwXleGPx53I4NxA8dwKIGyCnY6iEpL+Fuaq22FDpzaTpQvLO6e26Bwsy33DMeGoh4ankh8hDJOpQY7zT2kgsgjnRPG5nmWPA69UxvKRUDx63G+11XnukRv+M4OhomserlI6mFxw/c6YmCphSejBt2jqdSFpx5aEIPixIJEVlXlhZ3Vw8NoCYj5e93n0ClQyD++4LXV0LRLB7KULzisRWAzXlvkdz6dm4Re/tDZx+/Vt+qTa/+veRqNwJPbw3ngx/3rj3qwvdZtuISL8O6ExjKmzBFXQHPVQIDAQAB";
 
     public static class RsaKeyPair {
         private String publicKey = "";
@@ -177,5 +161,16 @@ public class RSAUtils {
         cipher.init(Cipher.DECRYPT_MODE, pubOrPriKey);
         byte[] result = cipher.doFinal(Base64.getDecoder().decode(content));
         return new String(result);
+    }
+
+    public static void main(String[] args) throws Exception {
+        String text = "123456";
+        /*RsaKeyPair keyPair = generaterKeyPair();
+        System.out.println("PrivateKey:" + keyPair.getPrivateKey());
+        System.out.println("PublicKey:" + keyPair.getPublicKey());*/
+        String signTest = sign(text, privateKeyDef, true);
+        System.err.println(signTest);
+        boolean verifyTest = verify(text, signTest, publicKeyDef, true);
+        System.out.println(verifyTest);
     }
 }
